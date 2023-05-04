@@ -21,7 +21,7 @@ public class App {
         Cipher c = new Cipher("abcd");
         c.Binary();
         c.DeBinary();
-        //c.Print();
+        c.Print();
         new CipherTextEditor();
     }
 }

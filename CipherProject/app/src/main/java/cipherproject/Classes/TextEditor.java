@@ -26,8 +26,10 @@ public class TextEditor implements ActionListener {
     private JComboBox<String> cipherComboBox;
     private JToggleButton encryptButton;
     private JToggleButton decryptButton;
+    private JPasswordField keyField;
 
     private String cipherName;
+
     /**
      * Empty constructor
      */
@@ -57,6 +59,12 @@ public class TextEditor implements ActionListener {
         decryptButton = new JToggleButton();
         // Adding a decrypt button to toolbar
         toolBar.add(decryptButton);
+        
+        // Creating key field
+        keyField = new JPasswordField();
+
+        // Adding a key field to tool bar
+        toolBar.add(keyField);
 
         // Creating a text area
         textPane = new JTextPane();
@@ -115,12 +123,17 @@ public class TextEditor implements ActionListener {
         // Add a popup menu to the text area
         textPane.setComponentPopupMenu(popupMenu);
 
+        // Add a tool bar to the main window
         frame.add(toolBar, BorderLayout.PAGE_START);
-        // Adding a text area to the main window
+
+        // Adding a text area 
         frame.getContentPane().add(textPane, BorderLayout.CENTER);
 
         // Displaying the main window
         frame.setVisible(true);
+    }
+    public JPasswordField getKeyField() {
+        return keyField;
     }
 
     /**

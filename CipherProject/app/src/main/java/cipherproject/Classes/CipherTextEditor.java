@@ -23,8 +23,6 @@ public class CipherTextEditor {
             StyledDocument doc = textEditor.getTextPane().getStyledDocument();
             try {
                 cipherText.SetText(doc.getText(0, doc.getLength()));
-                System.out.println
-                ("\nDOC ENTEXT:: " + doc.getText(0, doc.getLength()) + "\nCIPHER ENTEXT" + cipherText.GetText() + "\n");
             } catch (BadLocationException e1) {
                 e1.printStackTrace();
             }
@@ -35,7 +33,9 @@ public class CipherTextEditor {
                 textEditor.getTextPane().setText(cipherText.GetText());
 
             } else if (cipherName == "Cesar") {
-                cipherText.Cesar(3);
+                String key = new String(textEditor.getKeyField().getPassword());
+                int intKey = Integer.parseInt(key);
+                cipherText.Cesar(intKey);
                 textEditor.getTextPane().setText(cipherText.GetText());
 
             } else if (cipherName == "Morse") {
@@ -43,11 +43,13 @@ public class CipherTextEditor {
                 textEditor.getTextPane().setText(cipherText.GetText());
 
             } else if (cipherName == "Vigener") {
-                cipherText.Vigener("lemon");
+                String key = new String(textEditor.getKeyField().getPassword());
+                cipherText.Vigener(key);
                 textEditor.getTextPane().setText(cipherText.GetText());
 
             } else if (cipherName == "Binary") {
                 cipherText.Binary();
+                System.out.print("ENBIN TEXT:: " + cipherText.GetText() + "\n");
                 textEditor.getTextPane().setText(cipherText.GetText());
             }
         });
@@ -56,18 +58,19 @@ public class CipherTextEditor {
             StyledDocument doc = textEditor.getTextPane().getStyledDocument();
             try {
                 cipherText.SetText(doc.getText(0, doc.getLength()));
-                System.out.println
-                ("\nDOC DETEXT:: " + doc.getText(0, doc.getLength()) + "\nCIPHER DETEXT" + cipherText.GetText() + "\n");
             } catch (BadLocationException e1) {
                 e1.printStackTrace();
             }
+
             String cipherName = textEditor.getCipherComboBox().getSelectedItem().toString();
             if (cipherName == "A1Z26") {
                 cipherText.DeA1Z26();
                 textEditor.getTextPane().setText(cipherText.GetText());
 
             } else if (cipherName == "Cesar") {
-                cipherText.DeCesar(3);
+                String key = new String(textEditor.getKeyField().getPassword());
+                int intKey = Integer.parseInt(key);
+                cipherText.DeCesar(intKey);
                 textEditor.getTextPane().setText(cipherText.GetText());
 
             } else if (cipherName == "Morse") {
@@ -75,11 +78,13 @@ public class CipherTextEditor {
                 textEditor.getTextPane().setText(cipherText.GetText());
 
             } else if (cipherName == "Vigener") {
-                cipherText.DeVigener("lemon");
+                String key = new String(textEditor.getKeyField().getPassword());
+                cipherText.DeVigener(key);
                 textEditor.getTextPane().setText(cipherText.GetText());
 
             } else if (cipherName == "Binary") {
                 cipherText.DeBinary();
+                System.out.print("DEBIN TEXT:: " + cipherText.GetText() + "\n");
                 textEditor.getTextPane().setText(cipherText.GetText());
             }
         });
