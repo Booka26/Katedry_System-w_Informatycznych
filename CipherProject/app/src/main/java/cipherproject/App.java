@@ -3,16 +3,25 @@
  */
 package cipherproject;
 
+import cipherproject.Classes.Cipher;
 import cipherproject.Classes.CipherTextEditor;
 
 public class App {
+    
+    /** 
+     * Greeting traveler
+     * @return 
+     * Hello world!
+     */
     public String getGreeting() {
         return "Hello world!";
     }
 
     public static void main(String[] args) {
+        Cipher c = new Cipher("abcd");
+        c.Binary();
+        c.DeBinary();
+        //c.Print();
         new CipherTextEditor();
-        /*TextEditor textEditor = */
-        //Cipher cipherText = new Cipher("abcd");
     }
 }

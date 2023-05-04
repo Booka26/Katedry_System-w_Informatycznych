@@ -5,9 +5,10 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-/*
- * A1Z26, Cesar, Morse, Vigener, Binary
- * 
+
+/**
+ * Class that encrypts text
+ * Available encrypts: A1Z26, Cesar, Morse, Vigener, Binary
  */
 public class Cipher {
     private static final int NUM_LETTERS = 26;
@@ -17,32 +18,59 @@ public class Cipher {
             "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..",
             "-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----." };
 
+    /**
+     * Empty constructor
+     */
     // Empty constructor
     public Cipher() {
         this.text = "";
     }
 
+    /**
+     * Constructor which set the text
+     */
     // Constructor with text
     public Cipher(String text) {
         this.text = text;
     }
 
+    /**
+     * Print text in console
+     */
     // Print text in console
     public void Print() {
-        System.out.println(text);
+        System.out.println
+        ("--------------------------------------\n Text: " + text + "\n--------------------------------------");
     }
 
+    /**
+     * @param text
+     *             set class field text with param text
+     */
     // Setter text
     public void SetText(String text) {
         this.text = text;
     }
 
+    /**
+     * text getter
+     * 
+     * @return
+     *         class field text
+     */
     // Getter text
     public String GetText() {
         return this.text;
     }
 
-    // Load text from file
+    /**
+     * Load text from file
+     * 
+     * @param path
+     *             path to text
+     * @throws IOException
+     *                     exception IO operations
+     */
     public void FileLoadText(String path) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(path));
         String line;
@@ -52,47 +80,68 @@ public class Cipher {
         reader.close();
     }
 
-    // Save text to file
+    /**
+     * Save text to file
+     * 
+     * @param path
+     *             path to file
+     * @throws IOException
+     *                     exception IO operations
+     */
     public void FileSaveText(String path) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(path));
         writer.write(this.text);
         writer.close();
     }
 
-    // Encrypts using the Cesar cipher with the given key
+    /**
+     * Encrypts using the Cesar cipher with the given key
+     * 
+     * @param key
+     *            a key to encrypt text with
+     */
     public void Cesar(int key) {
         String cipherText = "";
         for (char c : text.toCharArray())
-            if (Character.isLetter(c))
+            if (Character.isLetter(c)) {
                 if (Character.isUpperCase(c))
                     cipherText += (char) (((c + key) % 96) + 96);
                 else if (Character.isLowerCase(c))
                     cipherText += (char) (((c + key) % 65) + 65);
                 else if (Character.isDigit(c))
                     cipherText += (char) (((c + key) % 48) + 48);
-                else
-                    cipherText += c;
+            } else
+                cipherText += c;
 
         text = cipherText;
     }
 
-    // Decrypt using the Cesar cipher with the given key
+    /**
+     * Decrypt using the Cesar cipher with the given key
+     * 
+     * @param key
+     *            a key to decrypt text with
+     */
     public void DeCesar(int key) {
         String cipherText = "";
         for (char c : text.toCharArray())
-            if (Character.isLetter(c))
+            if (Character.isLetter(c)) {
                 if (Character.isUpperCase(c))
-                    cipherText += (char) (((c + key) % 96) - 96);
+                    cipherText += (char) (((c - key) % 96) + 96);
                 else if (Character.isLowerCase(c))
-                    cipherText += (char) (((c + key) % 65) - 65);
+                    cipherText += (char) (((c - key) % 65) + 65);
                 else if (Character.isDigit(c))
-                    cipherText += (char) (((c + key) % 48) - 48);
-                else
-                    cipherText += c;
+                    cipherText += (char) (((c - key) % 48) + 48);
+
+            } else
+                cipherText += c;
 
         text = cipherText;
     }
 
+    /**
+     * Encrypts using the Morse cipher
+     */
     // Encrypts using the Morse cipher
     public void Morse() {
         String cipherText = "";
@@ -110,7 +159,10 @@ public class Cipher {
         text = cipherText;
     }
 
-    // Decrypt using the Cesar cipher
+    /**
+     * Decrypt using the Morse cipher
+     */
+    // Decrypt using the Morse cipher
     public void DeMorse() {
         String cipherText = "";
         String word = "";
@@ -137,6 +189,9 @@ public class Cipher {
         text = cipherText;
     }
 
+    /**
+     * Encrypts using the A-1 Z-26 cipher
+     */
     // Encrypts using the A-1 Z-26 cipher
     public void A1Z26() {
         String cipherText = "";
@@ -154,6 +209,9 @@ public class Cipher {
         text = cipherText;
     }
 
+    /**
+     * Decrypts using the A-1 Z-26 cipher
+     */
     // Decrypts using the A-1 Z-26 cipher
     public void DeA1Z26() {
         String cipherText = "";
@@ -184,7 +242,13 @@ public class Cipher {
         text = cipherText;
     }
 
-    // Encrypts a message using the Vigener cipher with the given key
+    /**
+     * Encrypts a message using the Vigener cipher with the given key
+     * 
+     * @param key
+     *            key to encrypt text with
+     */
+    // Encrypts a text using the Vigener cipher with the given key
     public void Vigener(String key) {
         StringBuilder cipherText = new StringBuilder();
         int keyIndex = 0;
@@ -198,7 +262,7 @@ public class Cipher {
                 int keyLetterIndex = Character.toUpperCase(key.charAt(keyIndex)) - 'A';
                 int shiftedIndex = (letterIndex + keyLetterIndex) % NUM_LETTERS;
 
-                // Convert shifted index back to letter and append to ciphertext
+                // Convert shifted index back to letter and append to text
                 char shiftedLetter = (char) ('A' + shiftedIndex);
                 cipherText.append(shiftedLetter);
 
@@ -213,7 +277,13 @@ public class Cipher {
         text = cipherText.toString();
     }
 
-    // Decrypts a ciphertext using the Vigener cipher with the given key
+    /**
+     * Encrypts text using the Vigener cipher with the given key
+     * 
+     * @param key
+     *            key to decrypt text with
+     */
+    // Decrypts text using the Vigener cipher with the given key
     public void DeVigener(String key) {
         StringBuilder cipherText = new StringBuilder();
         int keyIndex = 0;
@@ -244,6 +314,14 @@ public class Cipher {
         text = cipherText.toString();
     }
 
+    /**
+     * Returns a number in binary code
+     * 
+     * @param dec
+     *            decimal number to be converted into a binary number
+     * @return
+     *         8-bit binary number
+     */
     public int FromDecToBin(int dec) {
         int binary = 0, remainder, product = 1;
         while (dec != 0) {
@@ -255,6 +333,9 @@ public class Cipher {
         return binary;
     }
 
+    /**
+     * Encrypts using the Binary code
+     */
     // Encrypts using the Binary code
     public void Binary() {
         int h = 0;
@@ -269,6 +350,9 @@ public class Cipher {
         text = cipherText;
     }
 
+    /**
+     * Decrypts using the Binary code
+     */
     // Decrypts using the Binary code
     public void DeBinary() {
         String cipherText = "";
