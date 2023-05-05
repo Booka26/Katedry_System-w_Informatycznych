@@ -49,7 +49,6 @@ public class CipherTextEditor {
 
             } else if (cipherName == "Binary") {
                 cipherText.Binary();
-                System.out.print("ENBIN TEXT:: " + cipherText.GetText() + "\n");
                 textEditor.getTextPane().setText(cipherText.GetText());
             }
         });
@@ -57,11 +56,11 @@ public class CipherTextEditor {
         textEditor.getDecryptButton().addActionListener(e -> {
             StyledDocument doc = textEditor.getTextPane().getStyledDocument();
             try {
-                cipherText.SetText(doc.getText(0, doc.getLength()));
+                cipherText.SetText(doc.getText(0, doc.getLength()).replaceAll("\\n", ""));
             } catch (BadLocationException e1) {
                 e1.printStackTrace();
             }
-
+            
             String cipherName = textEditor.getCipherComboBox().getSelectedItem().toString();
             if (cipherName == "A1Z26") {
                 cipherText.DeA1Z26();
@@ -84,7 +83,6 @@ public class CipherTextEditor {
 
             } else if (cipherName == "Binary") {
                 cipherText.DeBinary();
-                System.out.print("DEBIN TEXT:: " + cipherText.GetText() + "\n");
                 textEditor.getTextPane().setText(cipherText.GetText());
             }
         });
