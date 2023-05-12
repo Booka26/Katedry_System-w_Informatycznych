@@ -62,8 +62,6 @@ public class TextEditor implements ActionListener {
         return gbc;
     }
 
-    
-
     /**
      * Empty constructor
      */
@@ -73,6 +71,7 @@ public class TextEditor implements ActionListener {
         frame = new JFrame("Text Editor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
+        frame.setIconImage(new ImageIcon(getClass().getResource("/Icons/mainIco.png")).getImage());
 
         // Creating a main panel
         mainPanel = new JPanel();
