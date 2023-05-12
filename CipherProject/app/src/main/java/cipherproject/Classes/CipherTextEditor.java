@@ -1,5 +1,9 @@
 package cipherproject.Classes;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.JFileChooser;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
@@ -18,8 +22,43 @@ public class CipherTextEditor {
         textEditor = new TextEditor();
         cipherText = new Cipher(textEditor.getTextPane().getText());
 
+        textEditor.getSaveFileItem().addActionListener(e -> {
+            StyledDocument doc = textEditor.getTextPane().getStyledDocument();
+            try {
+                cipherText.SetText(doc.getText(0, doc.getLength()));
+            } catch (BadLocationException e1) {
+                e1.printStackTrace();
+            }
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                try {
+                    System.out.println(cipherText.GetText());
+                    cipherText.FileSaveText(selectedFile.getPath());
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        
+        textEditor.getLoadFileItem().addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                try {
+                    cipherText.SetText("");
+                    cipherText.FileLoadText(selectedFile.getPath());
+                    textEditor.getTextPane().setText(cipherText.GetText());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
         textEditor.getEncryptButton().addActionListener(e -> {
-            
             StyledDocument doc = textEditor.getTextPane().getStyledDocument();
             try {
                 cipherText.SetText(doc.getText(0, doc.getLength()));
@@ -60,7 +99,7 @@ public class CipherTextEditor {
             } catch (BadLocationException e1) {
                 e1.printStackTrace();
             }
-            
+
             String cipherName = textEditor.getCipherComboBox().getSelectedItem().toString();
             if (cipherName == "A1Z26") {
                 cipherText.DeA1Z26();

@@ -77,6 +77,7 @@ public class Cipher {
         while ((line = reader.readLine()) != null) {
             this.text += line + "\n";
         }
+        //System.out.println("TEXT:: " + text);
         reader.close();
     }
 

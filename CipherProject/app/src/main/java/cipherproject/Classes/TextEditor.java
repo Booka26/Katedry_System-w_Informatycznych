@@ -20,48 +20,15 @@ public class TextEditor implements ActionListener {
     private JMenuItem pasteItem;
     private JMenuItem deleteItem;
     private JMenuItem selectAllItem;
-    private JCheckBoxMenuItem boldItem;
-    private JCheckBoxMenuItem italicItem;
-    private JCheckBoxMenuItem underlineItem;
-    private JComboBox<String> fontCombo;
-    private JComboBox<Integer> sizeCombo;
+    private JMenuItem saveFileItem;
+    private JMenuItem loadFileItem;
+
     private JComboBox<String> cipherComboBox;
+    
     private JButton encryptButton;
     private JButton decryptButton;
     private JPasswordField keyField;
-
     private String cipherName;
-
-    /**
-     * Setting button in one style
-     * 
-     * @param but
-     *             button what we want to set
-     * @param text
-     *             button label
-     * @param size
-     *             button size
-     * @return
-     *         JButton
-     */
-    private JButton SetButton(JButton but, String text, Dimension size) {
-        but = new JButton();
-        but.setText(text);
-        but.setSize(size);
-        return but;
-    }
-
-    private GridBagConstraints SetGridBagConstraints() {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.gridheight = 1;
-        return gbc;
-    }
-
     /**
      * Empty constructor
      */
@@ -113,28 +80,15 @@ public class TextEditor implements ActionListener {
         pasteItem = new JMenuItem("Paste");
         deleteItem = new JMenuItem("Delete");
         selectAllItem = new JMenuItem("Select All");
+        saveFileItem = new JMenuItem("Save");
+        loadFileItem = new JMenuItem("Open");
+        
         // Add listeners to menu items
         cutItem.addActionListener(this);
         copyItem.addActionListener(this);
         pasteItem.addActionListener(this);
         deleteItem.addActionListener(this);
         selectAllItem.addActionListener(this);
-
-        // Create menu items for text formatting
-        boldItem = new JCheckBoxMenuItem("Bold");
-        italicItem = new JCheckBoxMenuItem("Italic");
-        underlineItem = new JCheckBoxMenuItem("Underline");
-        // Add listeners to menu items for text formatting
-        boldItem.addActionListener(this);
-        italicItem.addActionListener(this);
-        underlineItem.addActionListener(this);
-
-        // Create combo boxes for font and font size selection
-        fontCombo = new JComboBox<>(new String[] { "Arial", "Times New Roman", "Verdana" });
-        sizeCombo = new JComboBox<>(new Integer[] { 8, 10, 12, 14, 16, 18, 20, 22, 24 });
-        // Adding listeners to combo boxes
-        fontCombo.addActionListener(this);
-        sizeCombo.addActionListener(this);
 
         // Adding menu items to the popup menu
         popupMenu.add(cutItem);
@@ -144,12 +98,8 @@ public class TextEditor implements ActionListener {
         popupMenu.addSeparator();
         popupMenu.add(selectAllItem);
         popupMenu.addSeparator();
-        popupMenu.add(boldItem);
-        popupMenu.add(italicItem);
-        popupMenu.add(underlineItem);
-        popupMenu.addSeparator();
-        popupMenu.add(fontCombo);
-        popupMenu.add(sizeCombo);
+        popupMenu.add(saveFileItem);
+        popupMenu.add(loadFileItem);
 
         // Adding cipher menu panel to main panel
         gbc.gridx = 0;
@@ -182,6 +132,14 @@ public class TextEditor implements ActionListener {
         frame.setVisible(true);
     }
 
+    public JMenuItem getSaveFileItem() {
+        return saveFileItem;
+    }
+
+    public JMenuItem getLoadFileItem() {
+        return loadFileItem;
+    }
+
     public JPasswordField getKeyField() {
         return keyField;
     }
@@ -206,43 +164,6 @@ public class TextEditor implements ActionListener {
             textPane.replaceSelection("");
         } else if (e.getSource() == selectAllItem) {
             textPane.selectAll();
-        } else if (e.getSource() == boldItem) {
-
-            // Formatting text in bold
-            MutableAttributeSet attrs = textPane.getInputAttributes();
-            Boolean isBold = (Boolean) attrs.getAttribute(StyleConstants.Bold);
-            System.out.println(isBold);
-            StyleConstants.setBold(attrs, !isBold);
-            textPane.setCharacterAttributes(attrs, true);
-        } else if (e.getSource() == italicItem) {
-
-            // Formatting text in italics
-            MutableAttributeSet attrs = textPane.getInputAttributes();
-            Boolean italic = (Boolean) attrs.getAttribute(StyleConstants.Italic);
-
-            StyleConstants.setItalic(attrs, !italic);
-            textPane.setCharacterAttributes(attrs, true);
-        } else if (e.getSource() == underlineItem) {
-
-            // Underline text formatting
-            MutableAttributeSet attrs = textPane.getInputAttributes();
-            Boolean underline = (Boolean) attrs.getAttribute(StyleConstants.Underline);
-            StyleConstants.setUnderline(attrs, !underline);
-            textPane.setCharacterAttributes(attrs, true);
-        } else if (e.getSource() == fontCombo) {
-
-            // Changing the text font
-            MutableAttributeSet attrs = textPane.getInputAttributes();
-            String fontName = (String) fontCombo.getSelectedItem();
-            StyleConstants.setFontFamily(attrs, fontName);
-            textPane.setCharacterAttributes(attrs, true);
-        } else if (e.getSource() == sizeCombo) {
-
-            // Changing the text font size
-            MutableAttributeSet attrs = textPane.getInputAttributes();
-            Integer fontSize = (Integer) sizeCombo.getSelectedItem();
-            StyleConstants.setFontSize(attrs, fontSize);
-            textPane.setCharacterAttributes(attrs, true);
         }
     }
 
@@ -357,54 +278,32 @@ public class TextEditor implements ActionListener {
     }
 
     /**
-     * Bold checkbox pop-up menu item getter
+     * Cipher combo box getter
      * 
      * @return
-     *         JCheckBoxMenuItem boldItem
-     * 
+     *         JComboBox cipherComboBox
      */
-    public JCheckBoxMenuItem getBoldItem() {
-        return boldItem;
+    public JComboBox<String> getCipherComboBox() {
+        return cipherComboBox;
     }
 
     /**
-     * Italic checkbox pop-up menu item getter
+     * Setting button in one style
      * 
+     * @param but
+     *             button what we want to set
+     * @param text
+     *             button label
+     * @param size
+     *             button size
      * @return
-     *         JCheckBoxMenuItem italicItem
+     *         JButton
      */
-    public JCheckBoxMenuItem getItalicItem() {
-        return italicItem;
-    }
-
-    /**
-     * Underline checkbox pop-up menu getter
-     * 
-     * @return
-     *         JCheckBoxMenuItem underlineItem
-     */
-    public JCheckBoxMenuItem getUnderlineItem() {
-        return underlineItem;
-    }
-
-    /**
-     * Font combo box pop-up menu item getter
-     * 
-     * @return
-     *         JComboBox fontCombo
-     */
-    public JComboBox<String> getFontCombo() {
-        return fontCombo;
-    }
-
-    /**
-     * Size combo box pop-up menu item getter
-     * 
-     * @return
-     *         JComboBox sizeCombo
-     */
-    public JComboBox<Integer> getSizeCombo() {
-        return sizeCombo;
+    private JButton SetButton(JButton but, String text, Dimension size) {
+        but = new JButton();
+        but.setText(text);
+        but.setSize(size);
+        return but;
     }
 
     /**
@@ -414,13 +313,14 @@ public class TextEditor implements ActionListener {
      *         JToolBar toolBar
      */
 
-    /**
-     * Cipher combo box getter
-     * 
-     * @return
-     *         JComboBox cipherComboBox
-     */
-    public JComboBox<String> getCipherComboBox() {
-        return cipherComboBox;
+    private GridBagConstraints SetGridBagConstraints() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.gridheight = 1;
+        return gbc;
     }
 }
